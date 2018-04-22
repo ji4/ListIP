@@ -40,13 +40,13 @@ def listAllIps():
 def sortAllData():
     with open('category_ip_unsorted', 'r') as fOldCategory_ip, open('category_ip_sorted', 'a+') as fNewCategory_ip:
         categoryIps = fOldCategory_ip.read()
-        ipSet = set()
+        categoryIpSet = set()
         for fileName in fileNames:
             for line in categoryIps.strip().split('\n'):
                 appendedline = fileName + '\t' + line.split('\t')[dstIpIndex]
-                if line.startswith(fileName) and appendedline not in ipSet:
+                if line.startswith(fileName) and appendedline not in categoryIpSet:
                     fNewCategory_ip.write(appendedline + '\n')
-                    ipSet.add(appendedline)
+                    categoryIpSet.add(appendedline)
     os.system('rm category_ip_unsorted')
             
 if __name__ == "__main__":
