@@ -1,5 +1,5 @@
 # ip
-It has filterd repeatted IPs in each category, local destination IPs, and sort by specified name.
+It has filterd repeatted IPs in each category, local destination IPs, and sort by specified name so far.
 
 That will come out a result file.
 
