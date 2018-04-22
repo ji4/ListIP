@@ -14,3 +14,6 @@ That will come out a result file for all IPs and a directory with each file's IP
 
 # Note
 If you want to execute this script for more than once to the same directory path, remember to remove the output *file* **category_ip_sorted** and *directory* of **ip** to make sure there will be no expectations.
+
+# Reference
+* [Removing duplicate lines from a file in Python](https://gist.github.com/dideler/4688053)
