@@ -1,7 +1,7 @@
 # Brief
 It has filterd repeatted IPs in each category, local destination IPs, and sort by specified name so far.
 
-That will come out a result file.
+That will come out a result file for all IPs and a directory with each file's IPs.
 
 # Manual
 * Drag your pcap directory and this scrip into your VM. 
