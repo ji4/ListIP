@@ -42,10 +42,11 @@ def sortAllData():
         categoryIps = fOldCategory_ip.read()
         content = set()
         for fileName in fileNames:
-            for line in categoryIps.split('\n'):
-                if line.startswith(fileName) and fileName + '\t' + line.split('\t')[dstIpIndex] not in content:
-                    fNewCategory_ip.write(fileName + '\t' + line.split('\t')[dstIpIndex] + '\n')
-                    content.add(fileName + '\t' + line.split('\t')[dstIpIndex])
+            for line in categoryIps.strip().split('\n'):
+                appendedline = fileName + '\t' + line.split('\t')[dstIpIndex]
+                if line.startswith(fileName) and appendedline not in content:
+                    fNewCategory_ip.write(appendedline + '\n')
+                    content.add(appendedline)
             
 if __name__ == "__main__":
     pcapToTxt()
