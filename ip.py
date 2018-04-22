@@ -7,6 +7,13 @@ from os.path import isfile, join
 
 path = "/Users/money/Downloads/0413_三國志_Android"
 filter = "'ip.src >= 192.168.137.2 && ip.src <= 192.168.137.255 && ip.dst != 192.168.137.1 && not icmp.type == 3'"
+fileNames = ['FbLogin', 'FbPersonal',
+            'GoogleLogin','GooglePersonal',
+            'GuestLogin', 'GuestPersonal',
+            'Gaming',
+            'Money']
+fileNameIndex = 0
+dstIpIndex = 1
 
 def pcapToTxt():
     pcapFiles = [f for f in listdir(path) if isfile(join(path, f))]
@@ -24,13 +31,23 @@ def listAllIps():
     ipFiles = [f for f in listdir(path) if isfile(join(path, f))]
     for file in ipFiles:
         with open(path + '/' + file, "r") as categoryFile:
-            allIps = categoryFile.read()
-            print 'file: ' + file + '\n' + allIps
-        for lineIp in allIps.split('\n'):
-            with open('category_ip', "a") as fCategory_ip:
+            categoryIps = categoryFile.read()
+            print 'file: ' + file + '\n' + categoryIps
+        for lineIp in categoryIps.split('\n'):
+            with open('category_ip_unsorted', "a") as fCategory_ip:
                 if(len(lineIp) > 0):
-                    fCategory_ip.write(file.split('.')[0] + '\t' + lineIp.split('\t')[1] + '\n')
-
+                    fCategory_ip.write(file.split('.')[fileNameIndex] + '\t' + lineIp.split('\t')[dstIpIndex] + '\n')
+def sortAllData():
+    with open('category_ip_unsorted', 'r') as fOldCategory_ip, open('category_sorted', 'a+') as fNewCategory_ip:
+        categoryIps = fOldCategory_ip.read()
+        content = set()
+        for fileName in fileNames:
+            for line in categoryIps.split('\n'):
+                if line.startswith(fileName) and fileName + '\t' + line.split('\t')[dstIpIndex] not in content:
+                    fNewCategory_ip.write(fileName + '\t' + line.split('\t')[dstIpIndex] + '\n')
+                    content.add(fileName + '\t' + line.split('\t')[dstIpIndex])
+            
 if __name__ == "__main__":
     pcapToTxt()
     listAllIps()
+    sortAllData()
