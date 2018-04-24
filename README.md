@@ -13,7 +13,7 @@ That will come out a result file for all IPs and a directory with each file's IP
 * Copy the IP column in Excel and paste it in **ip_list1** text file in VM and go on your work.
 
 # Note
-If you want to execute this script for more than once to the same directory path, remember to remove the output *file* **category_ip_sorted** and *directory* of **ip** to make sure there will be no expectations.
+If you want to execute this script for more than once to the same directory path, remember to remove the output *file* **category_ip_sorted** and *directory* of **ip** to make sure it will not be out of expectations.
 
 # Reference
 * [Removing duplicate lines from a file in Python](https://gist.github.com/dideler/4688053)
