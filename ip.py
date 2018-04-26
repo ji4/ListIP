@@ -48,7 +48,7 @@ def sortByCategory():
                 appendedline = fileName + '\t' + ip
                 if line.startswith(fileName) and appendedline not in categoryIpSet:
                     isp, country = searchISP_Country(ip)
-                    if !isp.startswith('MICROSOFT-CORP'):
+                    if not isp.startswith('MICROSOFT-CORP'):
                         fNewCategory_ip.write(appendedline + '\t' + isp + '\t' + allcn[country] +'('+ country + ')\n')
                         categoryIpSet.add(appendedline)
     os.system('rm category_ip_unsorted')
