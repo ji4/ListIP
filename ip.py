@@ -26,7 +26,7 @@ def pcapToTxt():
                   + ' | sort -u'
                   + ' > ./ip/' + file + '.txt')
         print "outputting file: " + file
-        
+
 def listAllIps():    
     path = './ip'
     ipFiles = [f for f in listdir(path) if isfile(join(path, f))]
@@ -49,21 +49,23 @@ def sortByCategory():
                 if line.startswith(fileName) and appendedline not in categoryIpSet:
                     isp, country = searchISP_Country(ip)
                     if not isp.startswith('MICROSOFT-CORP'):
-                        fNewCategory_ip.write(appendedline + '\t' + isp + '\t' + allcn[country] +'('+ country + ')\n')
-                        categoryIpSet.add(appendedline)
+                        if isp != '#N/A':
+                                fNewCategory_ip.write(appendedline + '\t' + isp + '\t' + allcn[country] +'('+ country + ')\n')
+                        elif fNewCategory_ip.write(appendedline + '\t' + '#N/A' + '\t' + '#N/A' + '\n'):
+                                categoryIpSet.add(appendedline)
     os.system('rm category_ip_unsorted')
-    
+
 def searchISP_Country(ip):
-    cmd = "whois -h whois.cymru.com \" -v %s\""	% ip
+    cmd = "whois -h whois.cymru.com \" -v %s\"" % ip
     res = os.popen(cmd).read().split('\n')[1]
     data = res.split('|')
     cn = data[3].strip()
     isp = data[6].strip()
-    print "%s\t%s\t%s(%s)" % (ip, isp.split(',')[0], allcn[cn], cn)
+#    print "%s\t%s\t%s(%s)" % (ip, isp.split(',')[0], allcn[cn], cn)
     if cn in allcn.keys():
         return (isp.split(',')[0], cn)
     return ('#N/A','#N/A')        
-            
+
 if __name__ == "__main__":
     pcapToTxt()
     listAllIps()
