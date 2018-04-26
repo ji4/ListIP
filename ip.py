@@ -1,6 +1,5 @@
 ##!/usr/bin/python
 ## coding=UTF-8
-
 import os
 from os import listdir
 from os.path import isfile, join
@@ -8,9 +7,8 @@ from myDict import *
 
 path = "/Users/money/Downloads/0413_三國志_Android"
 filter = "'ip.src >= 192.168.137.2 && ip.src <= 192.168.137.255 && not ((ip.dst >= 192.168.0.0 && ip.dst <= 192.168.255.255) || (ip.dst >= 224.0.0.0 && ip.dst <= 239.255.255.255)) && not icmp.type == 3'"
-fileNames = ['FbLogin', 'FbPersonal',
-            'GoogleLogin','GooglePersonal',
-            'GuestLogin', 'GuestPersonal',
+fileNames = ['FbLogin', 'GoogleLogin', 'GuestLogin',
+             'FbPersonal', 'GooglePersonal', 'GuestPersonal',
             'Gaming',
             'Money']
 fileNameIndex = 0
@@ -25,7 +23,7 @@ def pcapToTxt():
                   + ' -T fields -e ip.src -e ip.dst'
                   + ' | sort -u'
                   + ' > ./ip/' + file + '.txt')
-        print "outputting file: " + file
+        print "outputting file: " + file + ".txt"
 
 def listAllIps():    
     path = './ip'
@@ -45,14 +43,16 @@ def sortByCategory():
         for fileName in fileNames:
             for line in categoryIps.strip().split('\n'):
                 ip = line.split('\t')[dstIpIndex]
-                appendedline = fileName + '\t' + ip
-                if line.startswith(fileName) and appendedline not in categoryIpSet:
+                appendLine = fileName + '\t' + ip
+                if line.startswith(fileName) and appendLine not in categoryIpSet:
                     isp, country = searchISP_Country(ip)
                     if not isp.startswith('MICROSOFT-CORP'):
                         if isp != '#N/A':
-                                fNewCategory_ip.write(appendedline + '\t' + isp + '\t' + allcn[country] +'('+ country + ')\n')
-                        elif fNewCategory_ip.write(appendedline + '\t' + '#N/A' + '\t' + '#N/A' + '\n'):
-                                categoryIpSet.add(appendedline)
+                            fNewCategory_ip.write(appendLine + '\t' + isp + '\t' + allcn[country] +'('+ country + ')\n')
+                        else: 
+                            fNewCategory_ip.write(appendLine + '\t' + '#N/A' + '\t' + '#N/A' + '\n')
+                        categoryIpSet.add(appendLine)
+                    else: print 'Filtered an IP from MS. IP: '+ip
     os.system('rm category_ip_unsorted')
 
 def searchISP_Country(ip):
