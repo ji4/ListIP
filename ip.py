@@ -4,6 +4,7 @@
 import os
 from os import listdir
 from os.path import isfile, join
+from myDict import *
 
 path = "/Users/money/Downloads/0413_三國志_Android"
 filter = "'ip.src >= 192.168.137.2 && ip.src <= 192.168.137.255 && not ((ip.dst >= 192.168.0.0 && ip.dst <= 192.168.255.255) || (ip.dst >= 224.0.0.0 && ip.dst <= 239.255.255.255)) && not icmp.type == 3'"
@@ -37,19 +38,32 @@ def listAllIps():
             with open('category_ip_unsorted', "a") as fCategory_ip:
                 if(len(lineIp) > 0):
                     fCategory_ip.write(file.split('.')[fileNameIndex] + '\t' + lineIp.split('\t')[dstIpIndex] + '\n')
-def sortAllData():
+def sortByCategory():
     with open('category_ip_unsorted', 'r') as fOldCategory_ip, open('category_ip_sorted', 'a+') as fNewCategory_ip:
         categoryIps = fOldCategory_ip.read()
         categoryIpSet = set()
         for fileName in fileNames:
             for line in categoryIps.strip().split('\n'):
-                appendedline = fileName + '\t' + line.split('\t')[dstIpIndex]
+                ip = line.split('\t')[dstIpIndex]
+                appendedline = fileName + '\t' + ip
                 if line.startswith(fileName) and appendedline not in categoryIpSet:
-                    fNewCategory_ip.write(appendedline + '\n')
+                    isp, country = searchISP_Country(ip)
+                    fNewCategory_ip.write(appendedline + '\t' + isp + '\t' + allcn[country] +'('+ country + ')\n')
                     categoryIpSet.add(appendedline)
     os.system('rm category_ip_unsorted')
+    
+def searchISP_Country(ip):
+    cmd = "whois -h whois.cymru.com \" -v %s\""	% ip
+    res = os.popen(cmd).read().split('\n')[1]
+    data = res.split('|')
+    cn = data[3].strip()
+    isp = data[6].strip()
+    print "%s\t%s\t%s(%s)" % (ip, isp.split(',')[0], allcn[cn], cn)
+    if cn in allcn.keys():
+        return (isp.split(',')[0], cn)
+    return ('#N/A','#N/A')        
             
 if __name__ == "__main__":
     pcapToTxt()
     listAllIps()
-    sortAllData()
+    sortByCategory()
