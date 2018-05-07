@@ -12,8 +12,6 @@ fileNames = ['FbLogin', 'GoogleLogin', 'GuestLogin',
             'Gaming',
             'Money']
 
-fileNames = ['GLogin','Gaming','Money']
-
 fileNameIndex = 0
 dstIpIndex = 1
 
