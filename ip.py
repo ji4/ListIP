@@ -5,12 +5,11 @@ from os import listdir
 from os.path import isfile, join
 from myDict import *
 
-path = "/Users/money/Downloads/0413_三國志_Android"
-filter = "'ip.src >= 192.168.137.2 && ip.src <= 192.168.137.255 && not ((ip.dst >= 192.168.0.0 && ip.dst <= 192.168.255.255) || (ip.dst >= 224.0.0.0 && ip.dst <= 239.255.255.255)) && not icmp.type == 3'"
-fileNames = ['FbLogin', 'GoogleLogin', 'GuestLogin',
-             'FbPersonal', 'GooglePersonal', 'GuestPersonal',
-            'Gaming',
-            'Money']
+path = "/root/Desktop/shared_folder/ip/test"
+filter = "'ip.src >= 192.168.40.2 && ip.src <= 192.168.40.255 && not ((ip.dst >= 192.168.0.0 && ip.dst <= 192.168.255.255) || (ip.dst >= 224.0.0.0 && ip.dst <= 239.255.255.255)) && not icmp.type == 3'"
+
+fileNames = ['GLogin','Gaming','Money']
+
 fileNameIndex = 0
 dstIpIndex = 1
 
@@ -49,8 +48,6 @@ def sortByCategory():
                     if not isp.startswith('MICROSOFT-CORP'):
                         if isp != '#N/A':
                             fNewCategory_ip.write(appendLine + '\t' + isp + '\t' + allcn[country] +'('+ country + ')\n')
-                        else: 
-                            fNewCategory_ip.write(appendLine + '\t' + '#N/A' + '\t' + '#N/A' + '\n')
                         categoryIpSet.add(appendLine)
                     else: print 'Filtered an IP from MS. IP: '+ip
     os.system('rm category_ip_unsorted')
@@ -61,7 +58,9 @@ def searchISP_Country(ip):
     data = res.split('|')
     cn = data[3].strip()
     isp = data[6].strip()
-#    print "%s\t%s\t%s(%s)" % (ip, isp.split(',')[0], allcn[cn], cn)
+    
+    if "," in isp: #filter NA
+        print "%s\t%s\t%s(%s)" % (ip, isp.split(',')[0], allcn[cn], cn)
     if cn in allcn.keys():
         return (isp.split(',')[0], cn)
     return ('#N/A','#N/A')        
