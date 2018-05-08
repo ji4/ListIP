@@ -56,16 +56,25 @@ def sortByCategory():
 
 def searchISP_Country(ip):
     cmd = "whois -h whois.cymru.com \" -v %s\"" % ip
-    res = os.popen(cmd).read().split('\n')[1]
-    data = res.split('|')
-    cn = data[3].strip()
-    isp = data[6].strip()
+    res = os.popen(cmd).read()
+    if(len(res) > 0):
+        res = res.split("\n")[1]
+        data = res.split('|')
+        cn = data[3].strip()
+        isp = data[6].strip()
+
+        if "," in isp: #filter NA
+            print "%s\t%s\t%s(%s)" % (ip, isp.split(',')[0], allcn[cn], cn)
+        if cn in allcn.keys():
+            return (isp.split(',')[0], cn)
     
-    if "," in isp: #filter NA
-        print "%s\t%s\t%s(%s)" % (ip, isp.split(',')[0], allcn[cn], cn)
-    if cn in allcn.keys():
-        return (isp.split(',')[0], cn)
-    return ('#N/A','#N/A')        
+    saveToLog(ip)
+    return ('#N/A','#N/A') 
+
+def saveToLog(ip):
+    print "Found unidentified ip: " + ip + ", saved to unidentified.txt"
+    with open('unidentified', 'a+') as fLog:
+        fLog.write(ip + "\n")
 
 if __name__ == "__main__":
     pcapToTxt()
