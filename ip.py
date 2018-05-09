@@ -5,10 +5,12 @@ from os import listdir
 from os.path import isfile, join
 from myDict import *
 
-path = "/Users/money/Downloads/0413_三國志_Android"
-fileNames = ['FbLogin', 'GoogleLogin', 'GuestLogin',
+path = "/root/Desktop/shared_folder/ip/test"
 filter = "'ip.src >= 192.168.137.2 && ip.src <= 192.168.137.255 && not ((ip.dst >= 192.168.0.0 && ip.dst <= 192.168.255.255) || (ip.dst >= 224.0.0.0 && ip.dst <= 239.255.255.255) || ip.dst == 255.255.255.255) && not icmp.type == 3'"
-            'Gaming',
+fileNames = ['FbLogin', 'GoogleLogin', 'GuestLogin',
+             'FbPersonal', 'GooglePersonal', 'GuestPersonal',
+             'Gaming',
+             'Money']
 
 fileNameIndex = 0
 dstIpIndex = 1
