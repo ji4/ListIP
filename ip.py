@@ -67,17 +67,16 @@ def searchISP_Country(ip):
         cn = data[3].strip()
         isp = data[6].strip()
 
-        if "," in isp: #filter NA
+        if "," in isp and cn in allcn.keys(): #filter NA
             print "%s\t%s\t%s(%s)" % (ip, isp.split(',')[0], allcn[cn], cn)
-        if cn in allcn.keys():
             return (isp.split(',')[0], cn)
     
     saveToLog(ip)
     return ('#N/A','#N/A') 
 
 def saveToLog(ip):
-    print "Found unidentified ip: " + ip + ", saved to unidentified.txt"
-    with open(outputDirPath + '/unidentified', 'a+') as fLog:
+    print "Found unknown cn or ip: " + ip + ", log saved to unknown_ip.txt"
+    with open(outputDirPath + '/unknown_ip', 'a+') as fLog:
         fLog.write(ip + "\n")
 
 if __name__ == "__main__":
