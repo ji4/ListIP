@@ -27,7 +27,7 @@ def pcapToTxt():
                   + ' -Y ' + filter 
                   + ' -T fields -e ip.src -e ip.dst'
                   + ' | sort -u'
-                  + ' > ' + path + '/' + outputDir +'/' + categoryDir + '/' + file + '.txt')
+                  + ' > ' + outputDirPath +'/' + categoryDir + '/' + file + '.txt')
         print "outputting file: " + file + ".txt"
 
 def listAllIps():
