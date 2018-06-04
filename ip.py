@@ -6,11 +6,12 @@ from os.path import isfile, join
 from myDict import *
 
 path = "/root/Desktop/shared_folder/ip/test"
-filter = "'ip.src >= 192.168.137.2 && ip.src <= 192.168.137.255 && not ((ip.dst >= 192.168.0.0 && ip.dst <= 192.168.255.255) || (ip.dst >= 224.0.0.0 && ip.dst <= 239.255.255.255) || ip.dst == 255.255.255.255) && not icmp.type == 3'"
 fileNames = ['FbLogin', 'GoogleLogin', 'GuestLogin',
              'FbPersonal', 'GooglePersonal', 'GuestPersonal',
              'Gaming',
              'Money']
+
+filter = "'ip.src >= 192.168.137.2 && ip.src <= 192.168.137.255 && not ((ip.dst >= 192.168.0.0 && ip.dst <= 192.168.255.255) || (ip.dst >= 224.0.0.0 && ip.dst <= 239.255.255.255) || (ip.dst >= 10.0.0.0 && ip.dst <= 10.255.255.255) || ip.dst == 255.255.255.255) && not icmp.type == 3'"
 
 fileNameIndex = 0
 dstIpIndex = 1
