@@ -5,7 +5,9 @@ from os import listdir
 from os.path import isfile, join
 from myDict import *
 
-path = "/root/Desktop/shared_folder/ip/test"
+path = "/root/Desktop/shared_folder/0604_XXXX_Android"
+
+#如果像Web有多種儲值方式不要都命名Money開頭，不然都會像Gaming一樣算同一個，也不要有斜線和空白
 fileNames = ['FbLogin', 'GoogleLogin', 'GuestLogin',
              'FbPersonal', 'GooglePersonal', 'GuestPersonal',
              'Gaming',
