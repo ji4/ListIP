@@ -53,7 +53,7 @@ def sortByCategory():
                 if line.startswith(fileName) and appendLine not in categoryIpSet:
                     isp, country = searchISP_Country(ip)
                     if not isp.startswith('MICROSOFT-CORP'):
-                        if isp != '#N/A':
+                        if country != '#N/A':
                             fNewCategory_ip.write(appendLine + '\t' + isp + '\t' + allcn[country] +'('+ country + ')\n')
                         categoryIpSet.add(appendLine)
                     else: print 'Filtered an IP from MS. IP: '+ip
@@ -68,9 +68,12 @@ def searchISP_Country(ip):
         cn = data[3].strip()
         isp = data[6].strip()
 
-        if "," in isp and cn in allcn.keys(): #filter NA
+        if cn in allcn.keys(): #filter NA
             print "%s\t%s\t%s(%s)" % (ip, isp.split(',')[0], allcn[cn], cn)
-            return (isp.split(',')[0], cn)
+            if "," in isp:
+                isp = isp.split(',')[0]
+            else: isp = ''
+            return (isp, cn)
     
     saveToLog(ip)
     return ('#N/A','#N/A') 
