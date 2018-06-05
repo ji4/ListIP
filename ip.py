@@ -71,10 +71,10 @@ def searchISP_Country(ip):
         isp = data[6].strip()
 
         if cn in allcn.keys(): #filter NA
-            print "%s\t%s\t%s(%s)" % (ip, isp.split(',')[0], allcn[cn], cn)
             if "," in isp:
                 isp = isp.split(',')[0]
             else: isp = ''
+            print "%s\t%s\t%s(%s)" % (ip, isp, allcn[cn], cn)
             return (isp, cn)
     
     saveToLog(ip)
